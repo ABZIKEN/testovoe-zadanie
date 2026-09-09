@@ -1,0 +1,24 @@
+name: Verify backend
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run vercel-build
+      - run: docker compose up --build -d --wait
+      - name: Query container
+        run: |
+          curl --fail http://localhost:3000/health
+          node scripts/smoke.cjs
+      - if: always()
+        run: docker compose logs && docker compose down -v

@@ -1,0 +1,10 @@
+const { execFileSync } = require('node:child_process');
+const { mkdirSync, rmSync, copyFileSync } = require('node:fs');
+const { resolve } = require('node:path');
+const database = resolve('prisma/vercel.db');
+rmSync(database, { force: true });
+const env = { ...process.env, DATABASE_URL: `file:${database}` };
+execFileSync(process.execPath, ['node_modules/prisma/build/index.js', 'migrate', 'deploy'], { env, stdio: 'inherit' });
+execFileSync(process.execPath, ['dist/prisma/seed.js'], { env, stdio: 'inherit' });
+mkdirSync('dist/assets', { recursive: true });
+copyFileSync(database, 'dist/assets/card.db');

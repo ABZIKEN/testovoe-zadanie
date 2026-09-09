@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      DATABASE_URL: file:/app/data/card.db
+      PORT: 3000
+    volumes:
+      - card-data:/app/data
+    restart: unless-stopped
+volumes:
+  card-data:
