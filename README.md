@@ -1,8 +1,5 @@
 # Abzal Alanov · Digital Business Card API
 
-Read-only backend assignment using Git, TypeScript, Node.js, NestJS, Prisma, GraphQL and Docker.
-Apollo Sandbox runs at `/graphql`, including in production. The root URL redirects to Sandbox.
-
 ## Run from a fresh clone
 
 ```bash
